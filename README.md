@@ -1,2 +1,3 @@
 # responsive-husholding
-YEAH BABY!
+
+A responsive web-app for keeping an online, dynamic, synergetic husholdningsliste.
