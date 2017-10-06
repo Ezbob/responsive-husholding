@@ -7,8 +7,8 @@ app.get('/', function(req, res) {
 	if (req.method === 'GET') {
         fs.readFile("index.html", function( err, data ) {
             res.writeHead(200, {'Content-Type': 'text/html'});
-                res.write(data);
-                res.end();
+            res.write(data);
+            res.end();
         });
     } else {
     	console.log("I'm not implemented.");
