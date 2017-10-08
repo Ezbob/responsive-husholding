@@ -5,8 +5,8 @@
       src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.js"></script>
     <script>
     $(function() {
         "use strict";
@@ -17,10 +17,24 @@
 </script>
 </head>
 <body>
-    <div class="ui input">
-        <input type="text" placeholder="Indtast vare...">
+    <div class="ui form">
+      <div class="fields">
+        <div class="field">
+          <label>Vare Navn</label>
+          <input placeholder="Vare navn" type="text">
+        </div>
+        <div class="field">
+          <label>Antal Varer</label>
+          <input placeholder="1" type="text">
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input placeholder="Last Name" type="text">
+        </div>
+        <button class="ui button" type="submit">
+          Tilføj
+        </button>
+      </div>
     </div>
-    <button class="ui primary button">
-        Tilføj
-    </button>
+      
 </body>
