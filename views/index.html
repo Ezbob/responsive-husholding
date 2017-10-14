@@ -7,14 +7,10 @@
       crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.css">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.js"></script>
-    <script>
-    $(function() {
-        "use strict";
-        $('.addButton').click(function() {
-            
-        });
-    });
-</script>
+    <script type="text/javascript" src="static/js/calendar.js"></script>
+    <link rel="stylesheet" href="static/css/calendar.css" />
+    <script type="text/javascript" src="static/js/init.js"></script>
+    <script type="text/javascript" src="static/js/app.js"></script>
 </head>
 <body>
     <div class="ui form">
@@ -27,9 +23,13 @@
           <label>Antal Varer</label>
           <input placeholder="1" type="text">
         </div>
-        <div class="field">
-          <label>Last name</label>
-          <input placeholder="Last Name" type="text">
+
+        <div class=" field ui calendar" id="example2">
+          <label>Sidste holdbarehedsdato</label>
+          <div class="ui input left icon">
+            <i class="calendar icon"></i>
+            <input type="text" placeholder="Date">
+          </div>
         </div>
         <button class="ui button" type="submit">
           Tilføj
