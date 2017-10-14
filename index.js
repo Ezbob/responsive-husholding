@@ -21,7 +21,8 @@ app.use('/static', express.static('assets'));
 
 app.get('/', (req, res) => {
 
-	res.sendFile(path.join( app.get('views_path'), 'index.html'));
+	res.render('index');
+	//res.sendFile(path.join( app.get('views_path'), 'index.html'));
 });
 
 app.route('/grosslist/')
