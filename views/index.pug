@@ -4,32 +4,37 @@ block stylesheets
   link(rel="stylesheet", href="static/css/calendar.css")
 
 block script_includes
-  script(type="text/javascript" src="static/js/calendar.js")
+  script(type="text/javascript" src="static/js/calendar.min.js")
+  script(type="text/javascript", src="static/js/index.js")
+  script(type="text/javascript", src="http://momentjs.com/downloads/moment-with-locales.js")
+
 
 block content
-  div(id="vue-app")
-    div(class="ui form")
+  section(id="vue-app")
+    div(class="ui form segment")
       div(class="fields")
         div(class="field")
-          label Vare Navn
-          input(placeholder="Vare navn" type="text" v-model="name")
+          label(for="name") Vare Navn
+          div(class="ui input")
+            input(placeholder="Vare navn" name="name" type="text" v-model="name") 
         div(class="field")
-          label Antal Varer
-          input(placeholder="1" type="text" v-model="number")
+          label(for="amount") Antal Varer
+          div(class="ui input")
+            input(placeholder="Vare Antal" name="amount" type="text" v-model="amount")
         div(class="field ui calendar")
-          label Sidste holdbarehedsdato
-          div(class="ui input left icon")
+          label(for="date") Sidste holdbarehedsdato
+          div(class="ui input left icon picker")
             i(class="calendar icon")
-            input(type="text" placeholder="Date" v-model="date")
-      button(class="ui button" type="submit" v-on:click="addToList") Tilføj
+            div(class="ui input")
+              input(data-toggle="datepicker" type="text" name="date" placeholder="DD/MM/ÅÅÅÅ" v-model="date")
+      div(class="ui submit button" v-on:click="addToList") Tilføj
+      div(class="ui error message")
 
     table(class="ui celled striped table")
       thead
         tr
           th Vare Navn
           th Antal
+          th Sidste holdbarhedsdato
       tbody
-        tr(is="grocery-item" v-for="item in groceryList", v-bind:gitem="item", v-bind:key="item.id")
-
-block scripts
-  script(type="text/javascript", src="static/js/app.js")
+        tr(is="grocery-item" v-for="item in groceryList", v-bind:item="item", v-bind:key="item.id")

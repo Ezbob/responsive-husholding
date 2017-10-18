@@ -10,10 +10,16 @@
   "repository": "https://github.com/Ezbob/responsive-husholding/",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.1",
+    "@fengyuanchen/datepicker": "^0.6.3",
+    "express": "^4.16.2",
     "forever-monitor": "^1.7.1",
+    "jquery": "^3.2.1",
     "knex": "^0.13.0",
     "pug": "^2.0.0-rc.4",
-    "sqlite3": "^3.1.13"
+    "semantic-ui": "^2.2.13",
+    "semantic-ui-calendar": "0.0.8",
+    "sqlite3": "^3.1.13",
+    "vee-validate": "^2.0.0-rc.19",
+    "vue": "^2.5.2"
   }
 }

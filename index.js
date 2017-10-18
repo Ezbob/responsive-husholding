@@ -17,6 +17,8 @@ app.set('view engine', 'pug');
 const database = require("./modules/database.js")(app);
 
 app.use('/static', express.static('assets'));
+app.use('/static/semantic', express.static(path.join(app.get('root_path'), 'semantic')));
+app.use('/static/npm', express.static(path.join(app.get('root_path'), 'node_modules')));
 
 
 app.get('/', (req, res) => {
