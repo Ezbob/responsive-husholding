@@ -24,7 +24,7 @@ app.use('/static/npm', express.static(path.join(app.get('root_path'), 'node_modu
 app.get('/', (req, res) => {
 
 	res.render('index');
-	//res.sendFile(path.join( app.get('views_path'), 'index.html'));
+
 });
 
 app.route('/grosslist/')

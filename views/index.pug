@@ -2,11 +2,14 @@ extends layouts/base_HTML.pug
 
 block stylesheets
   link(rel="stylesheet", href="static/css/calendar.css")
+  link(rel="stylesheet", href="static/npm/air-datepicker/dist/css/datepicker.min.css")
 
 block script_includes
   script(type="text/javascript" src="static/js/calendar.min.js")
   script(type="text/javascript", src="static/js/index.js")
   script(type="text/javascript", src="http://momentjs.com/downloads/moment-with-locales.js")
+  script(type="text/javascript", src="static/npm/air-datepicker/dist/js/datepicker.min.js")
+  script(type="text/javascript", src="static/npm/air-datepicker/dist/js/i18n/datepicker.da.js")
 
 
 block content
@@ -21,12 +24,6 @@ block content
           label(for="amount") Antal Varer
           div(class="ui input")
             input(placeholder="Vare Antal" name="amount" type="text" v-model="amount")
-        div(class="field ui calendar")
-          label(for="date") Sidste holdbarehedsdato
-          div(class="ui input left icon picker")
-            i(class="calendar icon")
-            div(class="ui input")
-              input(data-toggle="datepicker" type="text" name="date" placeholder="DD/MM/ÅÅÅÅ" v-model="date")
       div(class="ui submit button" v-on:click="addToList") Tilføj
       div(class="ui error message")
 

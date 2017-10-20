@@ -93,7 +93,16 @@ app.main = function() {
 		components: {
 			'grocery-item': {
 				props: ['item'],
-				template: '<tr><td>{{ item.pname }}</td><td>{{ item.amount }}</td><td>{{ item.date }}</td></tr>'
+				template: '<tr><td>{{ item.pname }}</td><td>{{ item.amount }}</td>' +
+					'<td><div class="ui input">' +
+					'<input name="date" v-model="item.date" type="text"></div></td></tr>',
+
+
+				mounted: function() {
+					this.picker = $(this.$el).find("input").datepicker({ 
+						language: "da"
+					}).data('datepicker')
+				}
 			}
 		},
 
@@ -120,6 +129,7 @@ app.main = function() {
 					});
 
 					me.date = me.amount = me.name = '';
+					
 				}
 			}
 		}
