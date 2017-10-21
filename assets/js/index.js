@@ -95,13 +95,17 @@ app.main = function() {
 				props: ['item'],
 				template: '<tr><td>{{ item.pname }}</td><td>{{ item.amount }}</td>' +
 					'<td><div class="ui input">' +
-					'<input name="date" v-model="item.date" type="text"></div></td></tr>',
-
+					'<input name="date" v-model="item.lastgood" type="text"></div></td></tr>',
 
 				mounted: function() {
-					this.picker = $(this.$el).find("input").datepicker({ 
-						language: "da"
-					}).data('datepicker')
+					var me = this;
+					var input = $(this.$el).find("input");
+					this.picker = input.datepicker({ 
+						language: "da",
+						onSelect: function(formatted) {
+							me._props.item.date = formatted
+						}
+					}).data('datepicker')				
 				}
 			}
 		},
@@ -120,7 +124,7 @@ app.main = function() {
 
 				var formEl = app.addFormValidation();
 
-				if (formEl.form('is valid')) {
+				if ( formEl.form('is valid') ) {
 					me.groceryList.push({
 						id: getNewKey(), 
 						pname: me.name, 
