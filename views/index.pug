@@ -10,6 +10,7 @@ block script_includes
   script(type="text/javascript", src="http://momentjs.com/downloads/moment-with-locales.js")
   script(type="text/javascript", src="static/npm/air-datepicker/dist/js/datepicker.min.js")
   script(type="text/javascript", src="static/npm/air-datepicker/dist/js/i18n/datepicker.da.js")
+  script(type="text/javascript", src="static/npm/vee-validate/dist/vee-validate.min.js")
 
 
 block content
@@ -27,11 +28,13 @@ block content
       div(class="ui submit button" v-on:click="addToList") Tilføj
       div(class="ui error message")
 
-    table(class="ui celled striped table")
+    table(class="ui celled striped sortable table")
       thead
         tr
           th Vare Navn
           th Antal
           th Sidste holdbarhedsdato
+          th Fælles
+          th
       tbody
         tr(is="grocery-item" v-for="item in groceryList", v-bind:item="item", v-bind:key="item.id")

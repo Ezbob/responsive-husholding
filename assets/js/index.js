@@ -1,32 +1,4 @@
 
-app.initDatePicker = function() {
-	$('.field.ui.calendar').calendar({
-		type: 'date',
-		monthFirst: false,
-		formatter: {
-			date: function (date, settings) {
-				if (!date) return '';
-				var day = date.getDate();
-				var month = date.getMonth() + 1;
-				var year = date.getFullYear();
-				return day + '/' + month + '/' + year;
-			}
-		},
-		minDate: new Date(),
-		text: {
-			days: ['S', 'M', 'Ti', 'O', 'To', 'F', 'L'],
-			months: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
-			monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
-			today: 'I dag',
-			now: 'Nu',
-			am: 'AM',
-			pm: 'PM'
-		},
-	});
-
-
-	//$('table.ui.celled.center.aligned.unstackable.table.seven.column.day').css('display', 'none');
-};
 
 app.addFormValidation = function() {
 	var formEl = $('.form.ui');
@@ -75,9 +47,26 @@ app.addFormValidation = function() {
 
 app.main = function() {
 
+	Vue.use(VeeValidate);
+
 	$.fn.form.settings.rules.date = function(dateString, dateFormat) {
 		return moment(dateString, dateFormat, true).isValid();
 	}
+
+	Vue.component('date-picker', {
+		template: '<input/>',
+
+		mounted: function() {
+			var me = this;
+			var input = $(this.$el).datepicker({ 
+				language: "da",
+				onSelect: function(formatted) {
+					me.$emit('input', formatted)
+				}
+			})				
+		}
+
+	});
 
 	app.vue.index = new Vue({
 		el: "#vue-app",
@@ -93,19 +82,25 @@ app.main = function() {
 		components: {
 			'grocery-item': {
 				props: ['item'],
-				template: '<tr><td>{{ item.pname }}</td><td>{{ item.amount }}</td>' +
-					'<td><div class="ui input">' +
-					'<input name="date" v-model="item.lastgood" type="text"></div></td></tr>',
+				template: '<tr><td>{{ name }}</td><td>{{ amount }}</td>' +
+					'<td><div class="ui input"><date-picker v-model="lastgood"></date-picker></div></td>' +
+					'<td><div class="ui checkbox"><input name="shared" v-model="is_shared" type="checkbox"><label></label></div></td>' +
+					'<td><button class="ui red icon vertical animated button"><div class="hidden content">slet</div><div class="visible content"><i style="text-align: center;" class="remove icon"></i></div></button></td>' +
+					'</tr>',
 
-				mounted: function() {
-					var me = this;
-					var input = $(this.$el).find("input");
-					this.picker = input.datepicker({ 
-						language: "da",
-						onSelect: function(formatted) {
-							me._props.item.date = formatted
-						}
-					}).data('datepicker')				
+				data: function() {
+					return {
+						is_shared: this.item.is_shared,
+						name: this.item.pname,
+						amount: this.item.amount,
+						lastgood: this.item.lastgood
+					}
+				},
+
+				methods: {
+					updateDate: function(date) {
+						this.row.lastgood = date;
+					}
 				}
 			}
 		},
@@ -129,7 +124,8 @@ app.main = function() {
 						id: getNewKey(), 
 						pname: me.name, 
 						amount: me.amount,
-						date: me.date
+						is_shared: false,
+						lastgood: null
 					});
 
 					me.date = me.amount = me.name = '';
