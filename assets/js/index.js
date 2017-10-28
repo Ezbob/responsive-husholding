@@ -114,23 +114,28 @@ app.main = function() {
       }
     },
 
+    mounted: function() {
+      this.loadList()
+    },
+
     methods: {
+
+      getNewKey: function() {
+        if (me.groceryList.length == 0) {
+          return 0;
+        } else {
+          return me.groceryList[me.groceryList.length - 1].id + 1
+        }
+      },
 
       addToList: function() {
         var me = this;
-        function getNewKey() {
-          if (me.groceryList.length == 0) {
-            return 0;
-          } else {
-            return me.groceryList[me.groceryList.length - 1].id + 1
-          }
-        }
 
         var formEl = app.addFormValidation();
 
         if ( formEl.form('is valid') ) {
           me.groceryList.push({
-            id: getNewKey(), 
+            id: me.getNewKey(), 
             product_name: me.name, 
             amount: me.amount,
             shared: false,
@@ -138,6 +143,7 @@ app.main = function() {
           });
 
           me.date = me.amount = me.name = '';
+          me.upload(me.grocerylist);
         }
       },
 
@@ -149,11 +155,34 @@ app.main = function() {
             me.groceryList.splice(i, 1)
           }
         }
-      }
-    },
+      },
 
-    watch: {
-      groceryList: function(rows) {
+      loadList: function() {
+        var me = this;
+        $.ajax({
+          url: 'grocerylist',
+          method: 'GET'
+        }).done(function(response) {
+
+          if ( response.success ) {
+            for ( var i = 0; i < response.data.length; ++i ) {
+              var row = response.data[i];
+              me.groceryList.push({
+                "id": row.id,
+                "product_name": row.product_name,
+                "amount": row.amount,
+                "shared": row.shared == 0 ? false : true,
+                "last_good": row.last_good
+              });
+            }  
+          }
+        
+        }).fail(function() {
+          console.log("NO DATA")
+        })
+      },
+
+      upload: function(rows) {
         var data = [];
 
         for (var i = 0; i < rows.length; ++i) {
@@ -173,13 +202,16 @@ app.main = function() {
           contentType: 'application/json',
           data: JSON.stringify(data)
         }).done(function(resp) {
-          console.log("OK", resp)
+          if ( resp.success ) {
+            console.log("OK")
+          } else {
+            console.log("server side err")
+          }
         }).fail(function() {
           console.log("NO NO")
         })
       }
     }
-
   })
 
 };

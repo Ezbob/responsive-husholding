@@ -6,7 +6,16 @@ module.exports = function(app) {
 
 	app.route('/grocerylist/')
 		.get((req, res) => {
-			res.render("index")
+			if (req.xhr) {
+				knex.select().from('groceries')
+					.then(function(data) {
+						res.send({"success": true, "data": data})
+					}).catch(function() {
+						res.send({"success": false, "error": "database error"})
+					});
+			} else {
+				res.render("index")	
+			}
 		})
 		.put((req, res) => {
 			var is_successful = true;
@@ -23,11 +32,19 @@ module.exports = function(app) {
 			 
 
 			if ( result.error ) {
-				is_successful = false;
+				res.send({"success": false, "error": "validation error"});
+			} else {
+				knex('groceries').insert(req.body)
+				.then(function() {
+					console.log("inserted ", req.body)
+					res.send({"success": true});
+				})
+				.catch(function(err) {
+					console.error(err)
+					res.send({"success": false, "error": "database error"})
+				});
 			}
-
 			
-			res.send({"success": is_successful});
 		});	
 
 	app.route('/grocerylist/:itemId')
