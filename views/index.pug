@@ -14,7 +14,7 @@ block script_includes
 
 
 block content
-  section(id="vue-app")
+  section(id="vue-app" )
     div(class="ui form segment")
       div(class="fields")
         div(class="field")
@@ -37,4 +37,4 @@ block content
           th Fælles
           th
       tbody
-        tr(is="grocery-item" v-for="item in groceryList", v-bind:item="item", v-bind:key="item.id")
+        tr(is="grocery-item" @delete-row="removeFromList" v-for="item in groceryList", v-bind:item="item", v-bind:key="item.id")

@@ -1,4 +1,6 @@
-
+/*
+	Given a app with the database field set returns a query builder connection (knex)
+*/
 module.exports = function(app) {
 
 	const knex = require('knex')({

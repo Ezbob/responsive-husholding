@@ -3,3 +3,7 @@ body {
 	width: 900px;
 	margin-top: 60px;
 }
+
+.button.delete.red {
+	width: 40px;
+}
