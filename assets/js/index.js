@@ -121,10 +121,10 @@ app.main = function() {
     methods: {
 
       getNewKey: function() {
-        if (me.groceryList.length == 0) {
+        if (this.groceryList.length == 0) {
           return 0;
         } else {
-          return me.groceryList[me.groceryList.length - 1].id + 1
+          return this.groceryList[this.groceryList.length - 1].id + 1
         }
       },
 
@@ -134,16 +134,17 @@ app.main = function() {
         var formEl = app.addFormValidation();
 
         if ( formEl.form('is valid') ) {
-          me.groceryList.push({
-            id: me.getNewKey(), 
-            product_name: me.name, 
+          var row = {
+            id: me.getNewKey(),
+            product_name: me.name,
             amount: me.amount,
             shared: false,
             last_good: null
-          });
+          };
 
           me.date = me.amount = me.name = '';
-          me.upload(me.grocerylist);
+          me.upload(row);
+          me.groceryList.push(row);
         }
       },
 
@@ -153,6 +154,18 @@ app.main = function() {
           var curr = me.groceryList[i];
           if ( curr.id === id ) {
             me.groceryList.splice(i, 1)
+            $.ajax({
+              url: 'grocerylist/' + id,
+              method: 'DELETE'
+            }).done(function(resp) {
+              if ( resp.success ) {
+                console.log("OK")
+              } else {
+                console.log("server side err", resp.error)
+              }
+            }).fail(function() {
+              console.log("NO NO")
+            })
           }
         }
       },
@@ -182,28 +195,24 @@ app.main = function() {
         })
       },
 
-      upload: function(rows) {
-        var data = [];
-
-        for (var i = 0; i < rows.length; ++i) {
-
-          data.push({  
-            "product_name": rows[i].product_name,
-            "amount": rows[i].amount,
-            "shared": rows[i].shared,
-            "last_good": rows[i].last_good
-          });
-        }
+      upload: function(row) {
+        var data = JSON.stringify({  
+          "product_name": row.product_name,
+          "amount": row.amount,
+          "shared": row.shared,
+          "last_good": row.last_good
+        });
 
         $.ajax({
           url: 'grocerylist',
           dataType: 'json',
           method: 'PUT',
           contentType: 'application/json',
-          data: JSON.stringify(data)
+          data: data
         }).done(function(resp) {
           if ( resp.success ) {
             console.log("OK")
+            row.id = resp.data[0];
           } else {
             console.log("server side err")
           }

@@ -21,7 +21,7 @@ app.use('/static', express.static('assets'));
 app.use('/static/semantic', express.static(path.join(app.get('root_path'), 'semantic')));
 app.use('/static/npm', express.static(path.join(app.get('root_path'), 'node_modules')));
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const grocery = require("./modules/grocery.js")(app);
